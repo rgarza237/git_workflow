@@ -23,6 +23,7 @@ def user_1(db):
 @pytest.mark.django_db
 def test_set_check_password(user_1):
 	user_1.set_password('new-password')
+	print('This is my username:', user_1)
 	assert user_1.check_password('new-password') is True
 	user_1.delete()
 
