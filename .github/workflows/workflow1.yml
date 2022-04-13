@@ -23,9 +23,9 @@ jobs:
       postgres_main:
         image: postgres:14-alpine
         env:
-          POSTGRES_USER: ${{ env.PSQL_USER }}
-          POSTGRES_PASSWORD: ${{ env.PSQL_PASS }}
-          POSTGRES_DB: ${{ env.PSQL_DBNAME }}
+          POSTGRES_USER: roberto_garza
+          POSTGRES_PASSWORD: Enroute123
+          POSTGRES_DB: roberto_garzadb
         ports:
           - 10035:5535
         options: >-
@@ -50,11 +50,11 @@ jobs:
 
         env:
           DEBUG: "0"
-          DJANGO_SECRET_KEY: ${{ env.DJANGO_SECRET_KEY }}
-          DB_USERNAME: ${{ env.PSQL_USER }}
-          DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          DB_HOST: ${{ env.PSQL_HOST }}
-          DB_DATABASE: ${{ env.PSQL_DBNAME }}
-          DB_PORT: ${{ env.POSTGRES_PORT }}
+          DJANGO_SECRET_KEY: Enroute123
+          DB_USERNAME: roberto_garza
+          DB_PASSWORD: Enroute123
+          DB_HOST: postgres_db35
+          DB_DATABASE: roberto_garzadb
+          DB_PORT: 5535
         run: |
           python manage.py test
