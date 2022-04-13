@@ -2,36 +2,37 @@ version: '3'
 services:
   postgres_db35: 
     image: postgres:14-alpine
-    container_name: "postgres35"
+    container_name: "postgres${PORT}"
     environment:
-      POSTGRES_PASSWORD: "Enroute123"
-      POSTGRES_DB: "roberto_garzadb"
-      POSTGRES_USER: "roberto_garza"
+      POSTGRES_PASSWORD: "${PSQL_PASS}"
+      POSTGRES_DB: "${PSQL_DBNAME}"
+      POSTGRES_USER: "${PSQL_USER}"
     ports:
-      - "10035:5535"
+      - "100${PORT}:55${PORT}"
     volumes:
-      - "/home/roberto_garza/postgres:/usr/src/postgres"
+      - "${POSTGRES_VOLUME_PATH}:/usr/src/postgres"
     networks:
       - our-library-net
-    command: -p 5535
+    command: "-p 55${PORT}"
 
   web35:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8035"
-    container_name: "django35"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:80${PORT}"
+    container_name: "django${PORT}"
     depends_on: 
       - postgres_db35
     environment:
-      - "PSQL_DBNAME=roberto_garzadb"
-      - "PSQL_USERNAME=roberto_garza"
-      - "PSQL_PASS=Enroute123"
-      - "PSQL_HOST=172.24.0.60" # You must use the previous command in order to get this HOST
-      - "PSQL_PORT=5535"
+      - "PSQL_DBNAME=${PSQL_DBNAME}"
+      - "PSQL_USERNAME=${PSQL_USER}"
+      - "PSQL_PASS=${PSQL_PASS}"
+      - "PSQL_HOST=postgres_db35" # You must use the previous command in order to get this HOST
+      - "PSQL_PORT=55${PORT}"
+      - "JWT_TOKEN_TIME=${JWT_TOKEN_TIME}"
     volumes:
     # "RUTA/DEL/SERVIDOR:RUTA/DENTRO/DEL/CONTENEDOR"
-      - "/home/roberto_garza/dockerFriday/django-assignment-rgarza237/Django-REST-Exercise:/usr/src/django/library"
+      - "${DJANGO_VOLUME_PATH}:/usr/src/django/library"
     ports:
-      - "9035:8035"
+      - "90${PORT}:80${PORT}"
     networks:
       - our-library-net
  
