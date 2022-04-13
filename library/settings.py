@@ -106,7 +106,7 @@ DATABASES = {
         'USER': env.get('PSQL_USERNAME'),
         'PASSWORD': env.get('PSQL_PASS'),
         'HOST': env.get('PSQL_HOST'),
-        'PORT': env.get('PSQL_PORT'), # 'PORT': 5432
+        'PORT': env.get('PSQL_PORT'), # 'PORT': 5435
     }
 }
 
