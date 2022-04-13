@@ -29,7 +29,7 @@ jobs:
           docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" postgres35
       # - name: Restoring Databases
       #   run: |
-      #     docker exec postgres06 psql -h localhost -p 5506 -d dannae_martinezdb -U dannae_martinez < db_dump.sql
+      #     docker exec postgres06 psql -h localhost -p 5535 -d roberto_garzadb -U roberto_garza < db_dump.sql
       - name: Run docker container web
         run: |
           docker-compose --env-file .env.stg up -d web35
