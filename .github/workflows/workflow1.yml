@@ -1,14 +1,12 @@
 name: Django Test with PostgreSQL Example
 
 on:
-    workflow_call:
-    workflow_dispatch:
-    push:
+  push:
        branches: [main, pytest]
-    pull_request:
+  pull_request:
         branches: [main, pytest]
 jobs:
-simple_build:
+  simple_build:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
