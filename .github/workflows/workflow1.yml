@@ -1,34 +1,60 @@
-name: python application
+name: Example CI Django & Postgres Tests
 
-on: [push]
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: main
+  pull_request:
+    branches: main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER: roberto_garza
+      POSTGRES_PASSWORD: Enroute123
+      POSTGRES_HOST: postgres_db35 # default host value for the database
+      POSTGRES_DB: roberto_garzadb
+      POSTGRES_PORT: 5435
+      DJANGO_SECRET_KEY: Enroute123
+    services:
+      postgres_main:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: ${{ env.PSQL_USER }}
+          POSTGRES_PASSWORD: ${{ env.PSQL_PASS }}
+          POSTGRES_DB: ${{ env.PSQL_DBNAME }}
+        ports:
+          - 10035:5535
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+    strategy:
+      matrix:
+        python-version: ["3.8"] 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+      - name: Run Tests
 
-  steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Lint with Flake8
-      run: |
-        pip install flake8
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-    - name: Test with pytest
-      run: |
-        pip instal test
-        pytest
-    - name: Run migrations
-      run: python manage.py migrate
-    - name: Run tests
-      run: python manage.py test
+        env:
+          DEBUG: "0"
+          DJANGO_SECRET_KEY: ${{ env.DJANGO_SECRET_KEY }}
+          DB_USERNAME: ${{ env.PSQL_USER }}
+          DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          DB_HOST: ${{ env.PSQL_HOST }}
+          DB_DATABASE: ${{ env.PSQL_DBNAME }}
+          DB_PORT: ${{ env.POSTGRES_PORT }}
+        run: |
+          python manage.py test
