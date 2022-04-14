@@ -18,7 +18,7 @@ services:
   web35:
     build: .
     image: my-django-image35:2.0.0
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:80${PORT}"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8035"
     container_name: "django${PORT}"
     depends_on: 
       - postgres_db35

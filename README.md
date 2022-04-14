@@ -19,12 +19,12 @@ version: '3'
 services:
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:80XX"
-    container_name: "djangoXX"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8035"
+    container_name: "django35"
     volumes:
       - "/home/YOUR_USER/django/library:/usr/src/django/library"
     ports:
-      - "90XX:80XX"
+      - "9035:8035"
 ``` 
 2. Using docker-compose in order to deploy your container:
 > docker-compose up
