@@ -1,3 +1,4 @@
+[![Build Status](https://app.travis-ci.com/rgarza237/git_workflow.svg?branch=main)](https://app.travis-ci.com/rgarza237/git_workflow)
 # Django-and-Django-REST-Framework
 
 ## Setup
