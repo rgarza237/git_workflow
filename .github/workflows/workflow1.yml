@@ -57,4 +57,4 @@ jobs:
           DB_DATABASE: roberto_garzadb
           DB_PORT: 5535
         run: |
-          python manage.py test
+          pytest
